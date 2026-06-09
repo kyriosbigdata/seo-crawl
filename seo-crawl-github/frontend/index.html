@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SEO CRAWL | Dashboard</title>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css" />
+
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside id="sidebarNav" class="sidebar-nav"></aside>
+
+        <div class="app-content">
+            <header>
+                <h1>SEO CRAWL</h1>
+
+                <div class="header-right">
+                    <select id="monthSelector" class="date-picker">
+                        <option value="">Seleccionar Mes...</option>
+                    </select>
+
+                    <img src="./assets/kinesso_logo_transparente_descarga.png" alt="Kinesso Logo"
+                        class="kinesso-logo" />
+                </div>
+            </header>
+
+            <main class="dashboard-container">
+                <section class="card card-conversions">
+                    <h3>Conversiones Organic Search</h3>
+                    <div id="conversionsChart"></div>
+                </section>
+
+                <aside class="sidebar-indicators" id="sideIndicators"></aside>
+
+                <section class="card card-funnel">
+                    <h3>Embudo de Conversiones</h3>
+                    <div id="funnelChart"></div>
+                </section>
+
+                <section class="card kpi-main card-brand" id="kpi-brand">
+                    <div class="brand-animated-bg">
+                        <span class="brand-blob brand-blob-1"></span>
+                        <span class="brand-blob brand-blob-2"></span>
+                        <span class="brand-blob brand-blob-3"></span>
+                        <span class="brand-blob brand-blob-4"></span>
+                    </div>
+
+                    <span class="label">Marca</span>
+
+                    <div class="brand-logo-wrap">
+                        <img src="./assets/pharmacys_logo_transparente_letras_blancas.png" alt="Logo cliente"
+                            class="brand-logo" />
+                    </div>
+                </section>
+
+                <section class="card kpi-main kpi-aeo-card" id="kpi-aeo">
+                    <span class="label">Posición AEO</span>
+
+                    <div class="kpi-content">
+                        <span class="value">--</span>
+                        <span class="trend">--</span>
+                    </div>
+
+                    <div class="aeo-sources" id="aeoSources">
+                        <div class="aeo-source-item">
+                            <span class="aeo-source-label">AI Overview</span>
+                            <span class="aeo-source-value" data-aeo-source="posicion_aeo_ai_overview">--</span>
+                        </div>
+
+                        <div class="aeo-source-item">
+                            <span class="aeo-source-label">ChatGPT</span>
+                            <span class="aeo-source-value" data-aeo-source="posicion_aeo_chatgpt">--</span>
+                        </div>
+
+                        <div class="aeo-source-item">
+                            <span class="aeo-source-label">Perplexity</span>
+                            <span class="aeo-source-value" data-aeo-source="posicion_aeo_perplexity">--</span>
+                        </div>
+
+                        <div class="aeo-source-item">
+                            <span class="aeo-source-label">Gemini</span>
+                            <span class="aeo-source-value" data-aeo-source="posicion_aeo_gemini">--</span>
+                        </div>
+
+                        <div class="aeo-source-item">
+                            <span class="aeo-source-label">AI Mode</span>
+                            <span class="aeo-source-value" data-aeo-source="posicion_aeo_ai_mode">--</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card kpi-main" id="kpi-competidores">
+                    <span class="label">Competidores</span>
+                    <div class="kpi-content">
+                        <span class="value">--</span>
+                        <span class="trend">--</span>
+                    </div>
+                </section>
+
+                <section class="card kpi-main" id="kpi-seo">
+                    <span class="label">Posición SEO</span>
+                    <div class="kpi-content">
+                        <span class="value">--</span>
+                        <span class="trend">--</span>
+                    </div>
+                </section>
+
+                <section class="card kpi-main" id="kpi-keywords-pautadas">
+                    <span class="label">Keywords Pautadas por la Competencia</span>
+                    <div class="kpi-content">
+                        <span class="value">--</span>
+                        <span class="trend">--</span>
+                    </div>
+                </section>
+
+                <section class="card kpi-main" id="kpi-cantidad-keywords">
+                    <span class="label">Cantidad de Keywords</span>
+                    <div class="kpi-content">
+                        <span class="value">--</span>
+                        <span class="trend">--</span>
+                    </div>
+                </section>
+
+                <section class="card card-traffic">
+                    <h3>Tráfico Organic Search</h3>
+                    <div id="trafficChart"></div>
+                </section>
+            </main>
+
+<!-- Botón flotante IA -->
+            <button class="ai-float-btn" id="aiAnalyzeBtn">
+                ✦ Analizar con IA
+            </button>
+
+            <!-- Modal IA -->
+            <div class="ai-modal-overlay" id="aiModalOverlay" style="display:none;">
+                <div class="ai-modal">
+                    <div class="ai-modal-header">
+                        <span class="ai-analysis-icon">✦</span>
+                        <h3 id="aiModalTitle">Análisis IA</h3>
+                        <button class="ai-modal-close" id="aiModalClose">✕</button>
+                    </div>
+                    <div class="ai-modal-body" id="aiAnalysis"></div>
+                </div>
+            </div>
+
+            <section class="table-section">
+                <section class="table-container">
+                    <div class="query-table-header">
+                        <h3>Comparativo de URLs</h3>
+
+                        <div class="table-header-controls">
+                            <div class="query-metric-switch" id="urlMetricSwitch">
+                                <button type="button" class="url-metric-btn active" data-metric="clicks">Clicks</button>
+                                <button type="button" class="url-metric-btn"
+                                    data-metric="impressions">Impressions</button>
+                                <button type="button" class="url-metric-btn" data-metric="position">Position</button>
+                            </div>
+
+                            <div id="urlValueFilter"></div>
+                            <div id="urlTextFilter"></div>
+                            <button type="button" id="downloadUrlsCsv" class="table-download-btn">
+                                Descargar CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <table id="urlTable">
+                        <thead>
+                            <tr id="urlTableHeadRow"></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <div id="urlPagination" class="table-pagination"></div>
+                </section>
+
+                <section class="table-container">
+                    <div class="query-table-header">
+                        <h3>Comparativo de Queries</h3>
+
+                        <div class="table-header-controls">
+                            <div class="query-metric-switch" id="queryMetricSwitch">
+                                <button type="button" class="query-metric-btn active"
+                                    data-metric="clicks">Clicks</button>
+                                <button type="button" class="query-metric-btn"
+                                    data-metric="impressions">Impressions</button>
+                                <button type="button" class="query-metric-btn" data-metric="position">Position</button>
+                            </div>
+
+                            <div id="queryValueFilter"></div>
+                            <div id="queryTextFilter"></div>
+                            <button type="button" id="downloadQueriesCsv" class="table-download-btn">
+                                Descargar CSV
+                            </button>
+                        </div>
+                    </div>
+
+                    <table id="queryTable">
+                        <thead>
+                            <tr id="queryTableHeadRow"></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <div id="queryPagination" class="table-pagination"></div>
+                </section>
+            </section>
+        </div>
+    </div>
+
+    <script type="module" src="app.mjs"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

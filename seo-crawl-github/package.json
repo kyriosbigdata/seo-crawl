@@ -1,0 +1,28 @@
+{
+  "name": "seo-crawl-dashboard-091actualizacion",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:base:total": "node processors/base/resumen_base_builder.mjs",
+    "build:base:categories": "node processors/base/resumen_categories_base_builder.mjs",
+    "build:base": "npm run build:base:total && npm run build:base:categories",
+    "build:dashboard:resumen": "node processors/dashboard/resumen_processor.mjs",
+    "build:dashboard:resumen-categories": "node processors/dashboard/resumen_categories_processor.mjs",
+    "build:dashboard:urls": "node processors/dashboard/urls_processor.mjs",
+    "build:dashboard:queries": "node processors/dashboard/queries_processor.mjs",
+    "build:dashboard:queries-categories": "node processors/dashboard/queries_category_processor.mjs",
+    "build:dashboard": "npm run build:dashboard:resumen && npm run build:dashboard:resumen-categories && npm run build:dashboard:urls && npm run build:dashboard:queries && npm run build:dashboard:queries-categories",
+    "build:all": "npm run build:base && npm run build:dashboard"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "google-auth-library": "^10.7.0"
+  }
+}
